@@ -1349,6 +1349,8 @@ again:
 				synchronize_rcu();
 			}
 
+			l2tp_session_queue_purge(session);
+
 			if (session->session_close != NULL)
 				(*session->session_close)(session);
 
@@ -1671,6 +1673,8 @@ EXPORT_SYMBOL_GPL(l2tp_session_free);
  */
 int l2tp_session_delete(struct l2tp_session *session)
 {
+	l2tp_session_queue_purge(session);
+
 	if (session->session_close != NULL)
 		(*session->session_close)(session);
 
